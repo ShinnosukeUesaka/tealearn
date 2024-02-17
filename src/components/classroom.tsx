@@ -65,10 +65,12 @@ export default function Classroom  (){
     };
     
   useEffect(() => {
+    if (!canvasEl.current) return;
     const canvas = new fabric.Canvas(canvasEl.current);
     // make the fabric.Canvas instance available to your app
     updateCanvasContext(canvas);
-    addEventListener('resize', resizeCanvas);
+    resizeCanvas(canvas)
+    addEventListener('resize', () => resizeCanvas(canvas));
     return () => {
       updateCanvasContext(null);
       canvas.dispose();
@@ -87,8 +89,9 @@ export default function Classroom  (){
     canvasContext.current.add(rect);
   }
   
-  function resizeCanvas() {
-    console.log('resizeCanvas')
+  function resizeCanvas(canvas: fabric.Canvas | null) {
+    if (!canvasContext.current) return;
+    if (!fabricWrapper.current) return;``
     const ratio = canvasContext.current.getWidth() / canvasContext.current.getHeight();
     const containerWidth   = fabricWrapper.current.clientWidth;
     console.log('containerWidth', containerWidth);
@@ -96,9 +99,11 @@ export default function Classroom  (){
 
     const scale = containerWidth / canvasContext.current.getWidth();
     const zoom  = canvasContext.current.getZoom() * scale;
-    canvasContext.current.setDimensions({width: containerWidth, height: containerWidth / ratio});
-    canvasContext.current.setViewportTransform([zoom, 0, 0, zoom, 0, 0]);
+    console.log('zoom', zoom);
+    canvasContext.current.setDimensions({width: containerWidth, height: containerHeight});
+    //canvasContext.current.setDimensions({width: containerWidth, height: containerWidth / ratio});
+    //canvasContext.current.setViewportTransform([zoom, 0, 0, zoom, 0, 0]);
     }
 
-  return<><div ref={fabricWrapper} className="fabric-canvas-wrapper w-full h-[500px]">    <canvas ref={canvasEl} className="w-full h-full" /></div><button onClick={addRectangle}>Add Rectangle</button></>;
+  return<><div ref={fabricWrapper} className="fabric-canvas-wrapper aspect-[16/9] h-1/2 flex-1  outline"> <canvas ref={canvasEl} className="w-full h-full" /></div><button onClick={addRectangle}>Add Rectangle</button></>;
 };
