@@ -105,5 +105,5 @@ export default function Classroom  (){
     //canvasContext.current.setViewportTransform([zoom, 0, 0, zoom, 0, 0]);
     }
 
-  return<><div ref={fabricWrapper} className="fabric-canvas-wrapper aspect-[16/9] h-1/2 flex-1  outline"> <canvas ref={canvasEl} className="w-full h-full" /></div><button onClick={addRectangle}>Add Rectangle</button></>;
+  return<><div ref={fabricWrapper} className="fabric-canvas-wrapper aspect-[16/9] w-9/12 outline m-[80px]"> <canvas ref={canvasEl} /></div><button onClick={addRectangle} className="absolute">Add Rectangle</button></>;
 };
